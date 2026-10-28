@@ -12,7 +12,12 @@ services:
       - ./config:/config
     networks:
       - app_net
+      - dev_net
 
 networks:
   app_net:
     external: true
+    name: hz_app_prod # <-- This is the fix! It tells Docker the real name of the network.
+  dev_net:
+    external: true
+    name: hz_app_staging

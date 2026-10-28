@@ -1,5 +1,7 @@
-- name: "Horizon API"
-  tag: "horizon-api"
+# /config/monitors.yaml
+
+- name: "Horizon API (Prod)"
+  tag: "horizon-api-prod"
   description: "Main Production Backend"
   api:
     method: GET
@@ -8,3 +10,14 @@
     url: "https://${GRAFANA_PROM_USER}:${GRAFANA_API_KEY}@prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom"
     query: >
       histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket{job="horizon-api-prod"}[5m])) by (le))
+
+- name: "Horizon API (Dev)"
+  tag: "horizon-api-dev"
+  description: "Development/Staging Backend"
+  api:
+    method: GET
+    url: "http://horizonapp-api-dev:8080/health"
+  prometheus:
+    url: "https://${GRAFANA_PROM_USER}:${GRAFANA_API_KEY}@prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom"
+    query: >
+      histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket{job="horizon-api-dev"}[5m])) by (le))
