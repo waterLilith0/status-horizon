@@ -1,0 +1,18 @@
+services:
+  kener:
+    image: rajnandan1/kener:latest
+    container_name: kener_status
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+      - NODE_ENV=production
+      - GRAFANA_PROM_USER=3130188
+      - GRAFANA_API_KEY=${API_KEY}
+    volumes:
+      - ./config:/config
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    external: true

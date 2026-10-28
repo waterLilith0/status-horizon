@@ -1,0 +1,11 @@
+siteName: "Horizon Statuspage"
+siteURL: "https://status.waterlilith.space"
+home: "/"
+nav:
+  - name: "Dashboard"
+    url: "https://waterlilith.space"
+  - name: "Support"
+    url: "mailto:support@waterlilith.space"
+hero:
+  title: "Horizon System Status"
+  subtitle: "Real-time uptime and performance metrics"

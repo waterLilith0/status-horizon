@@ -1,0 +1,10 @@
+- name: "Horizon API"
+  tag: "horizon-api"
+  description: "Main Production Backend"
+  api:
+    method: GET
+    url: "http://horizonapp-api-prod:8080/health"
+  prometheus:
+    url: "https://${GRAFANA_PROM_USER}:${GRAFANA_API_KEY}@prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom"
+    query: >
+      histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket{job="horizon-api-prod"}[5m])) by (le))
