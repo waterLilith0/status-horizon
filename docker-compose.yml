@@ -19,6 +19,7 @@ services:
       - GRAFANA_API_KEY=${API_KEY}
       - REDIS_URL=redis://redis:6379/0
       - KENER_SECRET_KEY=${KENER_SECRET_KEY}
+      - ORIGIN=https://status.waterlilith.space
     volumes:
       - ./config:/config
     networks:
