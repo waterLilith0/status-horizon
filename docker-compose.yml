@@ -4,7 +4,7 @@ services:
     container_name: kener_redis
     restart: unless-stopped
     networks:
-      - app_net
+      - kener_internal
 
   kener:
     image: rajnandan1/kener:latest
@@ -21,13 +21,16 @@ services:
     volumes:
       - kener_db:/app/database
     networks:
-      - app_net
-      - dev_net
+      - default # egress to Grafana Cloud
+      - kener_internal # redis
+      - app_net # prod API + prod cloudflared
+      - dev_net # staging API
 
 volumes:
   kener_db:
 
 networks:
+  kener_internal:
   app_net:
     external: true
     name: hz_app_prod
