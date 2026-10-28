@@ -14,17 +14,17 @@ services:
       - redis
     environment:
       - TZ=Europe/Berlin
-      - NODE_ENV=production
-      - GRAFANA_PROM_USER=3130188
-      - GRAFANA_API_KEY=${API_KEY}
       - REDIS_URL=redis://redis:6379/0
       - KENER_SECRET_KEY=${KENER_SECRET_KEY}
       - ORIGIN=https://status.waterlilith.space
     volumes:
-      - ./config:/config
+      - kener_db:/app/database
     networks:
       - app_net
       - dev_net
+
+volumes:
+  kener_db:
 
 networks:
   app_net:
