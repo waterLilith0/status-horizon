@@ -1,13 +1,24 @@
 services:
+  redis:
+    image: redis:alpine
+    container_name: kener_redis
+    restart: unless-stopped
+    networks:
+      - app_net
+
   kener:
     image: rajnandan1/kener:latest
     container_name: kener_status
     restart: unless-stopped
+    depends_on:
+      - redis
     environment:
       - TZ=Europe/Berlin
       - NODE_ENV=production
       - GRAFANA_PROM_USER=3130188
       - GRAFANA_API_KEY=${API_KEY}
+      - REDIS_URL=redis://redis:6379/0
+      - KENER_SECRET_KEY=${KENER_SECRET_KEY}
     volumes:
       - ./config:/config
     networks:
@@ -17,7 +28,7 @@ services:
 networks:
   app_net:
     external: true
-    name: hz_app_prod # <-- This is the fix! It tells Docker the real name of the network.
+    name: hz_app_prod
   dev_net:
     external: true
     name: hz_app_staging
