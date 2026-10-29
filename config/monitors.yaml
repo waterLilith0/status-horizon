@@ -21,3 +21,21 @@
     url: "https://${GRAFANA_PROM_USER}:${GRAFANA_API_KEY}@prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom"
     query: >
       histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket{job="horizon-api-dev"}[5m])) by (le))
+
+      otelcol.receiver.otlp "default" {
+        http { endpoint = "0.0.0.0:4318" }
+        grpc { endpoint = "0.0.0.0:4317" }
+        output {
+          metrics = [otelcol.processor.batch.default.input]
+          logs    = [otelcol.processor.batch.default.input]
+          traces  = [otelcol.processor.batch.default.input]
+        }
+      }
+
+      otelcol.processor.batch "default" {
+        output {
+          metrics = [otelcol.exporter.otlphttp.grafana_cloud_otlp.input]
+          logs    = [otelcol.exporter.otlphttp.grafana_cloud_otlp.input]
+          traces  = [otelcol.exporter.otlphttp.grafana_cloud_otlp.input]
+        }
+      }
